@@ -123,6 +123,11 @@ public class AnkiDroidHelper {
         }
     }
 
+    public boolean hasCard(long modelId, ArrayList<String> fields) {
+        SparseArray<List<NoteInfo>> duplicateNotes = getApi().findDuplicateNotes(modelId, fields);
+        return duplicateNotes.size() > 0;
+    }
+
 
     /**
      * Try to find the given model by name, accounting for renaming of the model:

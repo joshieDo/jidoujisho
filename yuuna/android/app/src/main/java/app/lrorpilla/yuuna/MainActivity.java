@@ -173,6 +173,11 @@ public class MainActivity extends AudioServiceActivity {
         }
     }
 
+    private boolean hasCard(String model, String deck, ArrayList<String> fields) {
+        Long mid = mAnkiDroid.findModelIdByName(model, 1);
+        return mAnkiDroid.hasCard(mid, fields);
+    }
+
     private void addNote(String model, String deck, ArrayList<String> fields) {
         final AddContentApi api = new AddContentApi(context);
 
@@ -215,6 +220,9 @@ public class MainActivity extends AudioServiceActivity {
                         case "addNote":
                             addNote(model, deck, fields);
                             result.success("Added note");
+                            break;
+                        case "hasCard":
+                            result.success(hasCard(model, deck, fields));
                             break;
                         case "getDecks":
                             result.success(api.getDeckList());

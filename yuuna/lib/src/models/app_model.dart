@@ -1456,6 +1456,29 @@ class AppModel with ChangeNotifier {
     );
 
     try {
+      bool hasCard = await methodChannel.invokeMethod(
+        'hasCard',
+        <String, dynamic>{
+          'deck': deck,
+          'model': model,
+          'fields': fields,
+        },
+      );
+
+      if (hasCard) {
+        Fluttertoast.showToast(
+          msg: 'Note already exists.',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+        );
+        return;
+      }
+    } on PlatformException {
+      debugPrint('Failed to check for duplicate note.');
+      rethrow;
+    }
+
+    try {
       await methodChannel.invokeMethod(
         'addNote',
         <String, dynamic>{
